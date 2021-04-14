@@ -24,11 +24,21 @@ exports.signup = (req, res, next) => {
                 newUser.save( err => {
                     if (err) { return next(err)}
                     res.status(200).json({
-                        msg: "Sign up succesfully " + newUser.firstName,
+                        msg: 'Register succesfully',
                         user: newUser.user
                     })
                 })
             })
+        }
+    })
+}
+
+exports.getUsers = (req, res, next) => {
+    User.find({})
+    .exec((err, result) => {
+        if (err) { return next(err)}
+        else{
+            res.status(200).json(result)
         }
     })
 }

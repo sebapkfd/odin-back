@@ -8,6 +8,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.post('/signup', userController.signup)
+router.post('/signup', userController.signup);
+
+router.get('/users', userController.getUsers);
 
 module.exports = router;
