@@ -19,4 +19,8 @@ router.get('/users/:id', userController.getUserDetail);
 
 router.post('/posts', postController.createPost);
 
+router.get('/posts', postController.getAllPosts);
+
+router.get('/posts/:id', postController.getPostDetail);
+
 module.exports = router;

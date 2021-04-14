@@ -10,3 +10,23 @@ exports.createPost = (req, res, next) => {
         res.status(200).json({msg: 'Post sucessfully added'})
     })
 }
+
+exports.getAllPosts = (req, res, next) => {
+    Post.find({})
+    .exec((err, result) => {
+        if (err) { return next(err)}
+        else{
+            res.status(200).json(result)
+        }
+    })
+}
+
+exports.getPostDetail = (req, res, next) => {
+    Post.findById(req.params.id)
+    .exec((err, result) => {
+        if (err) { return next(err)}
+        else{
+            res.status(200).json(result)
+        }
+    })
+}
