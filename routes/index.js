@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const userController = require('../controllers/userController');
+const postController = require('../controllers/postController');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -15,5 +16,7 @@ router.post('/login', userController.login);
 router.get('/users', userController.getAllUsers);
 
 router.get('/users/:id', userController.getUserDetail);
+
+router.post('/posts', postController.createPost);
 
 module.exports = router;
