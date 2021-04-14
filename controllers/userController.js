@@ -33,8 +33,18 @@ exports.signup = (req, res, next) => {
     })
 }
 
-exports.getUsers = (req, res, next) => {
+exports.getAllUsers = (req, res, next) => {
     User.find({})
+    .exec((err, result) => {
+        if (err) { return next(err)}
+        else{
+            res.status(200).json(result)
+        }
+    })
+}
+
+exports.getUserDetail = (req, res, next) => {
+    User.findById(req.params.id)
     .exec((err, result) => {
         if (err) { return next(err)}
         else{
