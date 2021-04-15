@@ -39,3 +39,16 @@ exports.deleteComment = (req, res, next) => {
         res.json({msg: 'Comment deleted'})
     })
 }
+
+exports.editComment = (req, res, next) => {
+    const updatedComment = new Comment({
+        text: req.body.text,
+        user: req.body.user,
+        post: req.body.post,
+        _id: req.body.id
+    })
+    Comment.findByIdAndUpdate(req.body.id, updatedComment, {}, (err) => {
+        if (err) { return next(err) }
+        res.json({msg: 'Comment updated'})
+    })
+}

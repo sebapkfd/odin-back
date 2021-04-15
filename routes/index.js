@@ -26,7 +26,7 @@ router.get('/posts/:id', postController.getPostDetail);
 
 router.delete('/posts/:id', postController.deletePost);
 
-router.put('/posts/edit/:id', postController.editPost);
+router.put('/posts/:id', postController.editPost);
 
 router.post('/comments', commentController.createComment);
 
@@ -35,5 +35,7 @@ router.get('/comments', commentController.getAllComments);
 router.get('/comments/:id', commentController.getCommentDetail);
 
 router.delete('/comments/:id', commentController.deleteComment);
+
+router.put('/comments/:id', commentController.editComment);
 
 module.exports = router;
