@@ -38,3 +38,15 @@ exports.deletePost = (req, res, next) => {
         res.json({msg: 'Post deleted'})
     })
 }
+
+exports.editPost = (req, res, next) => {
+    const updatedPost = new Post({
+        text: req.body.text,
+        user: req.body.user,
+        _id: req.body.id
+    })
+    Post.findByIdAndUpdate(req.body.id, updatedPost, {}, (err) => {
+        if (err) { return next(err) }
+        res.json({msg: 'Post updated'})
+    })
+}

@@ -25,4 +25,6 @@ router.get('/posts/:id', postController.getPostDetail);
 
 router.delete('/posts/:id', postController.deletePost);
 
+router.put('/posts/edit/:id', postController.editPost);
+
 module.exports = router;
