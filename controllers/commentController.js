@@ -31,3 +31,11 @@ exports.getCommentDetail = (req, res, next) => {
         }
     })
 }
+
+exports.deleteComment = (req, res, next) => {
+    Comment.findByIdAndRemove(req.body.id)
+    .exec((err) => {
+        if (err) {return next(err)}
+        res.json({msg: 'Comment deleted'})
+    })
+}
