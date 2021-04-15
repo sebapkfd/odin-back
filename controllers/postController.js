@@ -30,3 +30,11 @@ exports.getPostDetail = (req, res, next) => {
         }
     })
 }
+
+exports.deletePost = (req, res, next) => {
+    Post.findByIdAndRemove(req.body.id)
+    .exec((err) => {
+        if (err) {return next(err)}
+        res.json({msg: 'Post deleted'})
+    })
+}
