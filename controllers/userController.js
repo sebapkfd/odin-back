@@ -36,14 +36,14 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
     passport.authenticate('local', { session: false }, (err, user, info) => {
         if (err || !user) {
-            return res.status(400).json({ msg: 'Something went wrong!!' });
+            return res.status(400).json({ msg: 'Something went wrong' });
         }
         req.login(user, { session: false }, (error) => {
             if (error) res.send(error);
             const token = jwt.sign({ user }, secret, {
                 expiresIn: '1d',
             });
-            let data = { _id: user._id, username: user.email};
+            let data = { _id: user._id, email: user.email};
             return res.json({ user: data, token });
         });
     })(req, res);
