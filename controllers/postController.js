@@ -1,4 +1,6 @@
 const Post = require('../models/post');
+const Comment = require('../models/comment');
+const async = require('async');
 
 exports.createPost = (req, res, next) => {
     const newPost = new Post({
@@ -13,6 +15,7 @@ exports.createPost = (req, res, next) => {
 
 exports.getAllPosts = (req, res, next) => {
     Post.find({})
+    .populate('user')
     .exec((err, result) => {
         if (err) { return next(err)}
         else{
@@ -22,12 +25,28 @@ exports.getAllPosts = (req, res, next) => {
 }
 
 exports.getPostDetail = (req, res, next) => {
-    Post.findById(req.params.id)
-    .exec((err, result) => {
-        if (err) { return next(err)}
-        else{
-            res.status(200).json(result)
+    async.parallel({
+        postDetail: (callback) => {
+            Post.findById(req.params.id)
+            .populate('user')
+            .exec(callback);
+        },
+        postComments: (callback) => {
+            Comment.find({'post': req.params.id})
+            .sort({'timestamp':'Ascending'})
+            .populate('post') 
+            .populate('user')
+            .exec(callback);
         }
+    }, (err, results) => {
+        if (err) { return next(err)}
+        if (results.postDetail === null) {
+            let err = new Error('Post not found');
+            err.status = 404;
+            return next(err)
+        }
+        const {postDetail, postComments} = results;
+        res.status(200).json({postDetail, postComments})
     })
 }
 
