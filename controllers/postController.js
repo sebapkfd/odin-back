@@ -43,10 +43,10 @@ exports.getPostDetail = (req, res, next) => {
         if (results.postDetail === null) {
             let err = new Error('Post not found');
             err.status = 404;
-            return next(err)
+            return next(err);
         }
         const {postDetail, postComments} = results;
-        res.status(200).json({postDetail, postComments})
+        res.status(200).json({postDetail, postComments});
     })
 }
 

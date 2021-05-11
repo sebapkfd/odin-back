@@ -1,8 +1,10 @@
 const User = require('../models/user');
+const Post = require('../models/post');
 
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const async = require('async');
 const {secret}=  require('../info');
 
 exports.signup = (req, res, next) => {
@@ -60,11 +62,23 @@ exports.getAllUsers = (req, res, next) => {
 }
 
 exports.getUserDetail = (req, res, next) => {
-    User.findById(req.params.id)
-    .exec((err, result) => {
-        if (err) { return next(err)}
-        else{
-            res.status(200).json(result)
+    async.parallel({
+        userDetail: (callback) => {
+            User.findById(req.params.id)
+            .exec(callback);
+        },
+        userPosts: (callback) => {
+            Post.find({'user': req.params.id})
+            .populate('user')
+            .exec(callback);
         }
+    }, (err, results) => {
+        if (err) { return next(err)}
+        if (results.userDetail === null) {
+            let err = new Error('Post not found');
+            err.status = 404;
+            return next(err);
+        }
+        res.status(200).json(results)
     })
 }
