@@ -18,6 +18,8 @@ router.get('/users', userController.getAllUsers);
 
 router.get('/users/:id', userController.getUserDetail);
 
+router.get('/users/others/:id', userController.getOtherUsers);
+
 router.post('/posts', postController.createPost);
 
 router.get('/posts', postController.getAllPosts);

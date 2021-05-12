@@ -82,3 +82,14 @@ exports.getUserDetail = (req, res, next) => {
         res.status(200).json(results)
     })
 }
+
+exports.getOtherUsers = (req, res, next) => {
+    // Not friends
+    User.find({'_id': {$ne: req.params.id}})
+    .exec((err, result) => {
+        if (err) { return next(err)}
+        else{
+            res.status(200).json(result)
+        }
+    })
+}
