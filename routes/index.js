@@ -20,6 +20,8 @@ router.get('/users/:id', userController.getUserDetail);
 
 router.post('/users/others', userController.sendFriendRequest);
 
+router.put('/users/others', userController.cancelFriendRequest);
+
 router.get('/users/others/:id', userController.getOtherUsers);
 
 router.post('/posts', postController.createPost);

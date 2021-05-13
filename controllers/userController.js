@@ -99,3 +99,10 @@ exports.sendFriendRequest = (req, res, next) => {
         res.json({msg: 'Friend request sent'})
     })
 }
+
+exports.cancelFriendRequest = (req, res, next) => {
+    User.findByIdAndUpdate(req.body.receiver, { $pull: { friendRequests: req.body.sender } }, (err) => {
+        if (err) {return next(err)}
+        res.json({msg: 'Friend request removed'})
+    })
+}
