@@ -137,3 +137,28 @@ exports.aceptFriendRequest = (req, res, next) => {
         res.status(200).json({msg: 'Request Acepted'})
     })
 }
+
+exports.deleteFriend = (req, res, next) => {
+    async.parallel({
+        userSender: (callback) => {
+            User.findByIdAndUpdate(req.body.sender, {
+                $pull: {friendList: req.body.friend}
+            })
+            .exec(callback);
+        },
+        friendRemoved: (callback) => {
+            User.findByIdAndUpdate(req.body.friend, {
+                $pull : {friendList: req.body.sender}
+            })
+            .exec(callback);
+        }
+    }, (err, results) => {
+        if (err) { return next(err)}
+        if (results.userSender === null || results.friendRemoved === null) {
+            let err = new Error('Post not found');
+            err.status = 404;
+            return next(err);
+        }
+        res.status(200).json({msg: 'Friend Removed'})
+    })
+}

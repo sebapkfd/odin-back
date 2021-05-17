@@ -26,6 +26,8 @@ router.put('/users/requests', userController.aceptFriendRequest);
 
 router.get('/users/others/:id', userController.getNotFriends);
 
+router.put('/users/friends', userController.deleteFriend);
+
 router.post('/posts', postController.createPost);
 
 router.get('/posts', postController.getAllPosts);
