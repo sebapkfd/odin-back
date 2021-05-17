@@ -85,8 +85,11 @@ exports.getUserDetail = (req, res, next) => {
     })
 }
 
-exports.getOtherUsers = (req, res, next) => {
-    User.find({'_id': {$ne: req.params.id}})
+// not friends
+exports.getNotFriends = (req, res, next) => {
+    User.find({ '_id': {$ne: req.params.id}, 
+        'friendList': {$nin: req.params.id}
+    })
     .exec((err, result) => {
         if (err) { return next(err)}
         else{
