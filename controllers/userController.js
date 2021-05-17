@@ -65,6 +65,8 @@ exports.getUserDetail = (req, res, next) => {
     async.parallel({
         userDetail: (callback) => {
             User.findById(req.params.id)
+            .populate('friendList')
+            .populate('friendRequests')
             .exec(callback);
         },
         userPosts: (callback) => {
