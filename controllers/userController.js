@@ -108,3 +108,29 @@ exports.cancelFriendRequest = (req, res, next) => {
         res.json({msg: 'Friend request removed'})
     })
 }
+
+exports.aceptFriendRequest = (req, res, next) => {
+    async.parallel({
+        userReceiver: (callback) => {
+            User.findByIdAndUpdate(req.body.receiver, {
+                $push : { friendList: req.body.sender },
+                $pull: {friendRequests: req.body.sender}
+            })
+            .exec(callback);
+        },
+        userSender: (callback) => {
+            User.findByIdAndUpdate(req.body.sender, {
+                $push : {friendList: req.body.receiver}
+            })
+            .exec(callback);
+        }
+    }, (err, results) => {
+        if (err) { return next(err)}
+        if (results.userReceiver === null || results.userSender === null) {
+            let err = new Error('Post not found');
+            err.status = 404;
+            return next(err);
+        }
+        res.status(200).json({msg: 'Request Acepted'})
+    })
+}
