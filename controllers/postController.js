@@ -16,6 +16,7 @@ exports.createPost = (req, res, next) => {
 exports.getAllPosts = (req, res, next) => {
     Post.find({})
     .populate('user')
+    .populate('likes')
     .exec((err, result) => {
         if (err) { return next(err)}
         else{
@@ -29,6 +30,7 @@ exports.getPostDetail = (req, res, next) => {
         postDetail: (callback) => {
             Post.findById(req.params.id)
             .populate('user')
+            .populate('likes')
             .exec(callback);
         },
         postComments: (callback) => {
@@ -36,6 +38,7 @@ exports.getPostDetail = (req, res, next) => {
             .sort({'timestamp':'Ascending'})
             .populate('post') 
             .populate('user')
+            .populate('likes')
             .exec(callback);
         }
     }, (err, results) => {
