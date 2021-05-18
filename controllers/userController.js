@@ -56,7 +56,11 @@ exports.getAllUsers = (req, res, next) => {
     .exec((err, result) => {
         if (err) { return next(err)}
         else{
-            res.status(200).json(result)
+            const data = result.map(elm => {
+                elm['password'] = '';
+                return elm
+            })
+            res.status(200).json(data)
         }
     })
 }
