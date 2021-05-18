@@ -72,3 +72,21 @@ exports.editPost = (req, res, next) => {
         res.json({msg: 'Post updated'})
     })
 }
+
+exports.likePost = (req, res, next) => {
+    Post.findById(req.body.id)
+    .exec((err, post) => {
+        if (err) { return next(err)}
+        if (post.likes.includes(req.body.user)) {
+            post.likes.pull(req.body.user);
+            post.save();
+            res.json({msg: 'Like removed'})
+        }
+        else {
+            post.likes.push(req.body.user);
+            post.save();
+            res.json({msg: 'Post liked'})
+        }
+    })
+    // res.json({msg: 'Like working'})
+}

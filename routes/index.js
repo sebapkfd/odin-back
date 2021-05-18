@@ -38,6 +38,8 @@ router.delete('/posts/:id', postController.deletePost);
 
 router.put('/posts/:id', postController.editPost);
 
+router.put('/posts/:id/like', postController.likePost);
+
 router.post('/comments', commentController.createComment);
 
 router.get('/comments', commentController.getAllComments);
