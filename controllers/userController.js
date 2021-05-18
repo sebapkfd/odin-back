@@ -85,10 +85,10 @@ exports.getUserDetail = (req, res, next) => {
     })
 }
 
-// not friends
 exports.getNotFriends = (req, res, next) => {
     User.find({ '_id': {$ne: req.params.id}, 
-        'friendList': {$nin: req.params.id}
+        'friendList': {$nin: req.params.id},
+        'friendRequests': {$nin: req.params.id}
     })
     .exec((err, result) => {
         if (err) { return next(err)}
@@ -99,7 +99,11 @@ exports.getNotFriends = (req, res, next) => {
 }
 
 exports.sendFriendRequest = (req, res, next) => {
-    User.findByIdAndUpdate(req.body.receiver, { $push: { friendRequests: req.body.sender } }, (err) => {
+    User.findByIdAndUpdate({
+        '_id': req.body.receiver,
+        'friendList': {$nin: req.body.sender},
+        'friendRequests': {$nin: req.body.sender}
+    }, { $push: { friendRequests: req.body.sender } }, (err) => {
         if (err) {return next(err)}
         res.json({msg: 'Friend request sent'})
     })
@@ -123,7 +127,8 @@ exports.aceptFriendRequest = (req, res, next) => {
         },
         userSender: (callback) => {
             User.findByIdAndUpdate(req.body.sender, {
-                $push : {friendList: req.body.receiver}
+                $push : {friendList: req.body.receiver},
+                $pull : {friendRequests: req.body.receiver}
             })
             .exec(callback);
         }
