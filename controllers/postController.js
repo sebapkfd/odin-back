@@ -65,6 +65,7 @@ exports.editPost = (req, res, next) => {
     const updatedPost = new Post({
         text: req.body.text,
         user: req.body.user,
+        likes: req.body.likes,
         _id: req.body.id
     })
     Post.findByIdAndUpdate(req.body.id, updatedPost, {}, (err) => {

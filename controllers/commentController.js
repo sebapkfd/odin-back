@@ -45,6 +45,7 @@ exports.editComment = (req, res, next) => {
         text: req.body.text,
         user: req.body.user,
         post: req.body.post,
+        likes: req.body.likes,
         _id: req.body.id
     })
     Comment.findByIdAndUpdate(req.body.id, updatedComment, {}, (err) => {
