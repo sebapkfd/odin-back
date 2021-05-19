@@ -52,3 +52,20 @@ exports.editComment = (req, res, next) => {
         res.json({msg: 'Comment updated'})
     })
 }
+
+exports.likeComment = (req, res, next) => {
+    Comment.findById(req.body.id)
+    .exec((err, comment) => {
+        if (err) { return next(err)}
+        if (comment.likes.includes(req.body.user)) {
+            comment.likes.pull(req.body.user);
+            comment.save();
+            res.json({msg: 'Like removed'});
+        }
+        else {
+            comment.likes.push(req.body.user);
+            comment.save();
+            res.json({msg: 'Like added'});
+        }
+    }) 
+}

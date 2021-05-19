@@ -50,4 +50,6 @@ router.delete('/comments/:id', commentController.deleteComment);
 
 router.put('/comments/:id', commentController.editComment);
 
+router.put('/comments/:id/like', commentController.likeComment);
+
 module.exports = router;

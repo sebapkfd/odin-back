@@ -80,13 +80,12 @@ exports.likePost = (req, res, next) => {
         if (post.likes.includes(req.body.user)) {
             post.likes.pull(req.body.user);
             post.save();
-            res.json({msg: 'Like removed'})
+            res.json({msg: 'Like removed'});
         }
         else {
             post.likes.push(req.body.user);
             post.save();
-            res.json({msg: 'Post liked'})
+            res.json({msg: 'Like added'});
         }
     })
-    // res.json({msg: 'Like working'})
 }
