@@ -28,7 +28,7 @@ exports.signup = (req, res, next) => {
                     res.status(201).json({
                         msg: 'Register succesfully',
                         user: newUser.user
-                    })
+                    });
                 })
             })
         }
@@ -60,7 +60,7 @@ exports.getAllUsers = (req, res, next) => {
                 elm['password'] = '';
                 return elm
             })
-            res.status(200).json(data)
+            res.status(200).json(data);
         }
     })
 }
@@ -85,7 +85,7 @@ exports.getUserDetail = (req, res, next) => {
             err.status = 404;
             return next(err);
         }
-        res.status(200).json(results)
+        res.status(200).json(results);
     })
 }
 
@@ -97,7 +97,7 @@ exports.getNotFriends = (req, res, next) => {
     .exec((err, result) => {
         if (err) { return next(err)}
         else{
-            res.status(200).json(result)
+            res.status(200).json(result);
         }
     })
 }
@@ -109,14 +109,14 @@ exports.sendFriendRequest = (req, res, next) => {
         'friendRequests': {$nin: req.body.sender}
     }, { $push: { friendRequests: req.body.sender } }, (err) => {
         if (err) {return next(err)}
-        res.status(200).json({msg: 'Friend request sent'})
+        res.status(200).json({msg: 'Friend request sent'});
     })
 }
 
 exports.cancelFriendRequest = (req, res, next) => {
     User.findByIdAndUpdate(req.body.receiver, { $pull: { friendRequests: req.body.sender } }, (err) => {
         if (err) {return next(err)}
-        res.status(200).json({msg: 'Friend request removed'})
+        res.status(200).json({msg: 'Friend request removed'});
     })
 }
 
@@ -143,7 +143,7 @@ exports.aceptFriendRequest = (req, res, next) => {
             err.status = 404;
             return next(err);
         }
-        res.status(201).json({msg: 'Request Acepted'})
+        res.status(201).json({msg: 'Request Acepted'});
     })
 }
 
@@ -168,6 +168,14 @@ exports.deleteFriend = (req, res, next) => {
             err.status = 404;
             return next(err);
         }
-        res.status(200).json({msg: 'Friend Removed'})
+        res.status(200).json({msg: 'Friend Removed'});
+    })
+}
+
+exports.deleteUser = (req, res, next) => {
+    User.findByIdAndRemove(req.params.id)
+    .exec((err) => {
+        if (err) { return next(err)}
+        res.status(200).json({msg: 'User Deleted'});
     })
 }
