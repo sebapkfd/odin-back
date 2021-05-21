@@ -9,6 +9,7 @@ require('./passport');
 
 const indexRouter = require('./routes/index');
 const postsRouter = require('./routes/posts');
+const commentsRouter = require('./routes/comments');
 
 const {key} = require('./info');
 
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 
 app.use('/', indexRouter);
-app.use('/posts/', postsRouter);
+app.use('/posts', postsRouter);
+app.use('/comments', commentsRouter);
 
 module.exports = app;
