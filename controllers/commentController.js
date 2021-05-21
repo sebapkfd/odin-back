@@ -8,7 +8,7 @@ exports.createComment = (req, res, next) => {
     })
     newComment.save((err) => {
         if (err) { return next(err)}
-        res.status(200).json({msg: 'Comment sucessfully added'})
+        res.status(201).json({msg: 'Comment sucessfully added'})
     })
 }
 
@@ -36,7 +36,7 @@ exports.deleteComment = (req, res, next) => {
     Comment.findByIdAndRemove(req.body.id)
     .exec((err) => {
         if (err) {return next(err)}
-        res.json({msg: 'Comment deleted'})
+        res.status(200).json({msg: 'Comment deleted'})
     })
 }
 
@@ -50,7 +50,7 @@ exports.editComment = (req, res, next) => {
     })
     Comment.findByIdAndUpdate(req.body.id, updatedComment, {}, (err) => {
         if (err) { return next(err) }
-        res.json({msg: 'Comment updated'})
+        res.status(201).json({msg: 'Comment updated'})
     })
 }
 
@@ -61,12 +61,12 @@ exports.likeComment = (req, res, next) => {
         if (comment.likes.includes(req.body.user)) {
             comment.likes.pull(req.body.user);
             comment.save();
-            res.json({msg: 'Like removed'});
+            res.status(201).json({msg: 'Like removed'});
         }
         else {
             comment.likes.push(req.body.user);
             comment.save();
-            res.json({msg: 'Like added'});
+            res.status(201).json({msg: 'Like added'});
         }
     }) 
 }

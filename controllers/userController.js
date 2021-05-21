@@ -12,7 +12,7 @@ exports.signup = (req, res, next) => {
     .exec((err, foundUSer) => {
         if (err) { return next(err)}
         if (foundUSer) {
-            return res.json({ msg: 'Can not use this email'})
+            return res.json({ msg: 'Can not use this email'})//
         }
         else {
             const newUser = new User({
@@ -25,7 +25,7 @@ exports.signup = (req, res, next) => {
                 newUser.set('password', hash);
                 newUser.save( err => {
                     if (err) { return next(err)}
-                    res.status(200).json({
+                    res.status(201).json({
                         msg: 'Register succesfully',
                         user: newUser.user
                     })
@@ -46,7 +46,7 @@ exports.login = (req, res, next) => {
                 expiresIn: '1d',
             });
             let data = { _id: user._id, email: user.email};
-            return res.json({ user: data, token });
+            return res.status(200).json({ user: data, token });
         });
     })(req, res);
 }
@@ -109,14 +109,14 @@ exports.sendFriendRequest = (req, res, next) => {
         'friendRequests': {$nin: req.body.sender}
     }, { $push: { friendRequests: req.body.sender } }, (err) => {
         if (err) {return next(err)}
-        res.json({msg: 'Friend request sent'})
+        res.status(200).json({msg: 'Friend request sent'})
     })
 }
 
 exports.cancelFriendRequest = (req, res, next) => {
     User.findByIdAndUpdate(req.body.receiver, { $pull: { friendRequests: req.body.sender } }, (err) => {
         if (err) {return next(err)}
-        res.json({msg: 'Friend request removed'})
+        res.status(200).json({msg: 'Friend request removed'})
     })
 }
 
@@ -143,7 +143,7 @@ exports.aceptFriendRequest = (req, res, next) => {
             err.status = 404;
             return next(err);
         }
-        res.status(200).json({msg: 'Request Acepted'})
+        res.status(201).json({msg: 'Request Acepted'})
     })
 }
 

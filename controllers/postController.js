@@ -9,7 +9,7 @@ exports.createPost = (req, res, next) => {
     })
     newPost.save((err) => {
         if (err) { return next(err)}
-        res.status(200).json({msg: 'Post sucessfully added'})
+        res.status(201).json({msg: 'Post sucessfully added'})
     })
 }
 
@@ -55,7 +55,7 @@ exports.deletePost = (req, res, next) => {
     Post.findByIdAndRemove(req.body.id)
     .exec((err) => {
         if (err) {return next(err)}
-        res.json({msg: 'Post deleted'})
+        res.status(200).json({msg: 'Post deleted'})
     })
 }
 
@@ -68,7 +68,7 @@ exports.editPost = (req, res, next) => {
     })
     Post.findByIdAndUpdate(req.body.id, updatedPost, {}, (err) => {
         if (err) { return next(err) }
-        res.json({msg: 'Post updated'})
+        res.status(201).json({msg: 'Post updated'})
     })
 }
 
@@ -79,12 +79,12 @@ exports.likePost = (req, res, next) => {
         if (post.likes.includes(req.body.user)) {
             post.likes.pull(req.body.user);
             post.save();
-            res.json({msg: 'Like removed'});
+            res.status(201).json({msg: 'Like removed'});
         }
         else {
             post.likes.push(req.body.user);
             post.save();
-            res.json({msg: 'Like added'});
+            res.status(201).json({msg: 'Like added'});
         }
     })
 }
