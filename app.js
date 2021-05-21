@@ -8,6 +8,7 @@ const cors = require('cors');
 require('./passport');
 
 const indexRouter = require('./routes/index');
+const postsRouter = require('./routes/posts');
 
 const {key} = require('./info');
 
@@ -27,5 +28,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 
 app.use('/', indexRouter);
+app.use('/posts/', postsRouter);
 
 module.exports = app;

@@ -28,18 +28,6 @@ router.get('/users/others/:id', userController.getNotFriends);
 
 router.put('/users/friends', userController.deleteFriend);
 
-router.post('/posts', postController.createPost);
-
-router.get('/posts', postController.getAllPosts);
-
-router.get('/posts/:id', postController.getPostDetail);
-
-router.delete('/posts/:id', postController.deletePost);
-
-router.put('/posts/:id', postController.editPost);
-
-router.put('/posts/:id/like', postController.likePost);
-
 router.post('/comments', commentController.createComment);
 
 router.get('/comments', commentController.getAllComments);
