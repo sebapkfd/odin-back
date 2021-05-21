@@ -171,11 +171,3 @@ exports.deleteFriend = (req, res, next) => {
         res.status(200).json({msg: 'Friend Removed'});
     })
 }
-
-exports.deleteUser = (req, res, next) => {
-    User.findByIdAndRemove(req.params.id)
-    .exec((err) => {
-        if (err) { return next(err)}
-        res.status(200).json({msg: 'User Deleted'});
-    })
-}
