@@ -35,7 +35,6 @@ exports.getPostDetail = (req, res, next) => {
         },
         postComments: (callback) => {
             Comment.find({'post': req.params.id})
-            .sort({'timestamp':'Ascending'})
             .populate('post') 
             .populate('user')
             .populate('likes')
