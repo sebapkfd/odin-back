@@ -47,8 +47,7 @@ exports.getPostDetail = (req, res, next) => {
             err.status = 404;
             return next(err);
         }
-        const {postDetail, postComments} = results;
-        res.status(200).json({postDetail, postComments});
+        res.status(200).json(results);
     })
 }
 
