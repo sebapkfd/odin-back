@@ -40,10 +40,8 @@ passport.use(
 
         async (token, done) => {
             try {
-                console.log('err on token funct 1')
                 return done(null, token.user);
             } catch (err) {
-                console.log('err on token funct')
                 done(err);
             }
         }

@@ -1,20 +1,21 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 
 const userController = require('../controllers/userController');
 
-router.get('/', userController.getAllUsers);
+router.get('/', passport.authenticate("jwt", { session: false }), userController.getAllUsers);
 
-router.get('/:id', userController.getUserDetail);
+router.get('/:id', passport.authenticate("jwt", { session: false }), userController.getUserDetail);
 
-router.post('/others', userController.sendFriendRequest);
+router.post('/others',passport.authenticate("jwt", { session: false }), userController.sendFriendRequest);
 
-router.put('/others', userController.cancelFriendRequest);
+router.put('/others',passport.authenticate("jwt", { session: false }), userController.cancelFriendRequest);
 
-router.get('/others/:id', userController.getNotFriends);
+router.get('/others/:id',passport.authenticate("jwt", { session: false }), userController.getNotFriends);
 
-router.put('/requests', userController.aceptFriendRequest);
+router.put('/requests',passport.authenticate("jwt", { session: false }), userController.aceptFriendRequest);
 
-router.put('/friends', userController.deleteFriend);
+router.put('/friends',passport.authenticate("jwt", { session: false }), userController.deleteFriend);
 
 module.exports = router;
