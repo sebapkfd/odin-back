@@ -103,11 +103,7 @@ exports.getNotFriends = (req, res, next) => {
 }
 
 exports.sendFriendRequest = (req, res, next) => {
-    User.findByIdAndUpdate({
-        '_id': req.body.receiver,
-        'friendList': {$nin: req.body.sender},
-        'friendRequests': {$nin: req.body.sender}
-    }, { $push: { friendRequests: req.body.sender } }, (err) => {
+    User.findByIdAndUpdate({'_id': req.body.receiver}, { $addToSet: { friendRequests: req.body.sender } }, (err) => {
         if (err) {return next(err)}
         res.status(200).json({msg: 'Friend request sent'});
     })
