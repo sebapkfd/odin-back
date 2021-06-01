@@ -2,10 +2,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const passportJWT = require('passport-jwt');
 const bcrypt = require('bcryptjs');
-const FacebookStrategy = require('passport-facebook').Strategy;
 
 const User = require('./models/user');
-const {facebookKey, secret, facebookClientSecret} = require('./info');
+const {secret} = require('./info');
 
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
@@ -48,64 +47,3 @@ passport.use(
         }
     )
 );
-
-passport.use(new FacebookStrategy({
-    clientID: facebookKey,
-    clientSecret: facebookClientSecret,
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
-  },
-  (accessToken, refreshToken, profile, cb) => {
-    User.findOne({ email: profile.emails[0].value})
-    //.populate("friends")
-    .exec((err, user) => {
-        console.log('XDDDDDDDDDDD');
-      if (user) {
-        return cb(err, user);
-      } else {
-        User.create(
-          {
-            email: profile.emails[0].value,
-            facebookID: profile.id,
-            firstName: profile.firstName,
-            lastName: profile.lastName
-          },
-          (err, user) => {
-            return cb(err, user);
-          }
-        );
-      }
-    });
-  }
-));
-
-// passport.use(new FacebookStrategy(
-//       {
-//         clientID: process.env.FACEBOOK_APP_ID,
-//         clientSecret: process.env.FACEBOOK_APP_SECRET,
-//         callbackURL: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/auth/facebook/callback' : 'https://fcloneodin.herokuapp.com/auth/facebook/callback',
-//         //passReqToCallback: true,
-//         profileFields: ['displayName', 'photos', 'email']
-//       },
-//       (accessToken, refreshToken, profile, cb) => {
-//         User.findOne({ email: profile.emails[0].value})
-//         //.populate("friends")
-//         .exec((err, user) => {
-//           if (user) {
-//             return cb(err, user);
-//           } else {
-//             User.create(
-//               {
-//                 email: profile.emails[0].value,
-//                 profile_photo: profile.photos[0].value,
-//                 facebookID: profile.id,
-//                 display_name: profile.displayName,
-//               },
-//               (err, user) => {
-//                 return cb(err, user);
-//               }
-//             );
-//           }
-//         });
-//       }
-//     )
-//   );
