@@ -5,7 +5,8 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const async = require('async');
-const {secret}=  require('../info');
+// const {secret} =  require('../info');
+const secret = process.env.SECRET;
 
 exports.signup = (req, res, next) => {
     User.findOne({ 'email': req.body.email})

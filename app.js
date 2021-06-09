@@ -12,7 +12,7 @@ const postsRouter = require('./routes/posts');
 const commentsRouter = require('./routes/comments');
 const usersRouter = require('./routes/users');
 
-const {key} = require('./info');
+const key = process.env.MONGODB_URI;
 
 const app = express();
 
