@@ -4,7 +4,7 @@ const passportJWT = require('passport-jwt');
 const bcrypt = require('bcryptjs');
 
 const User = require('./models/user');
-const {secret} = require('./info');
+const secret = process.env.SECRET;
 
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
